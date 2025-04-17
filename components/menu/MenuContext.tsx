@@ -15,7 +15,6 @@ export interface MenuContextProps {
   disableMenuItemTitleTooltip?: boolean;
   classNames?: MenuProps['classNames'];
   styles?: MenuProps['styles'];
-  mode?: MenuProps['mode'];
 }
 
 const MenuContext = createContext<MenuContextProps>({

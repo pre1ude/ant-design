@@ -1222,34 +1222,26 @@ describe('Menu', () => {
       item: 'test-item',
       itemIcon: 'test-item-icon',
       itemContent: 'test-item-content',
-      popup: {
-        root: 'test-popup-root',
-        list: 'test-list',
-        listTitle: 'test-list-title',
-        listItem: 'test-list-item',
+      subMenu: {
+        list: 'test-sub-menu-list',
+        listItem: 'test-sub-menu-list-item',
+        listItemIcon: 'test-sub-menu-list-item-icon',
+        listItemContent: 'test-sub-menu-list-item-content',
+        listTitle: 'test-sub-menu-list-title',
       },
-      subMenuList: 'test-sub-menu-list',
-      subMenuListItem: 'test-sub-menu-list-item',
-      subMenuListItemIcon: 'test-sub-menu-list-item-icon',
-      subMenuListItemContent: 'test-sub-menu-list-item-content',
-      subMenuListTitle: 'test-sub-menu-list-title',
     };
     const testStyles = {
       root: { fontSize: '12px' },
       item: { backgroundColor: 'red' },
       itemIcon: { backgroundColor: 'blue' },
       itemContent: { backgroundColor: 'green' },
-      popup: {
-        root: { fontSize: '14px' },
-        list: { color: 'red' },
-        listTitle: { color: 'blue' },
-        listItem: { color: 'green' },
+      subMenu: {
+        list: { color: 'blue' },
+        listItem: { color: 'red' },
+        listItemIcon: { color: 'green' },
+        listItemContent: { color: 'blue' },
+        listTitle: { color: 'red' },
       },
-      subMenuList: { color: 'blue' },
-      subMenuListItem: { color: 'red' },
-      subMenuListItemIcon: { color: 'green' },
-      subMenuListItemContent: { color: 'blue' },
-      subMenuListTitle: { color: 'red' },
     };
     const { container } = render(
       <Menu
@@ -1275,25 +1267,25 @@ describe('Menu', () => {
     expect(itemContent).toHaveClass(testClassNames.itemContent);
     expect(itemContent).toHaveStyle(testStyles.itemContent);
 
-    const subMenuList = document.querySelector(`.${testClassNames.subMenuList}`) as HTMLElement;
+    const subMenuList = document.querySelector(`.${testClassNames.subMenu.list}`) as HTMLElement;
     const subMenuListItem = document.querySelector(
-      `.${testClassNames.subMenuListItem}`,
+      `.${testClassNames.subMenu.listItem}`,
     ) as HTMLElement;
     const subMenuListItemIcon = document.querySelector(
-      `.${testClassNames.subMenuListItemIcon}`,
+      `.${testClassNames.subMenu.listItemIcon}`,
     ) as HTMLElement;
     const subMenuListItemContent = document.querySelector(
-      `.${testClassNames.subMenuListItemContent}`,
+      `.${testClassNames.subMenu.listItemContent}`,
     ) as HTMLElement;
     const subMenuListTitle = document.querySelector(
-      `.${testClassNames.subMenuListTitle}`,
+      `.${testClassNames.subMenu.listTitle}`,
     ) as HTMLElement;
 
-    expect(subMenuList).toHaveStyle(testStyles.subMenuList);
-    expect(subMenuListItem).toHaveStyle(testStyles.subMenuListItem);
-    expect(subMenuListItemIcon).toHaveStyle(testStyles.subMenuListItemIcon);
-    expect(subMenuListItemContent).toHaveStyle(testStyles.subMenuListItemContent);
-    expect(subMenuListTitle).toHaveStyle(testStyles.subMenuListTitle);
+    expect(subMenuList).toHaveStyle(testStyles.subMenu.list);
+    expect(subMenuListItem).toHaveStyle(testStyles.subMenu.listItem);
+    expect(subMenuListItemIcon).toHaveStyle(testStyles.subMenu.listItemIcon);
+    expect(subMenuListItemContent).toHaveStyle(testStyles.subMenu.listItemContent);
+    expect(subMenuListTitle).toHaveStyle(testStyles.subMenu.listTitle);
   });
   it('test classNames for popup', () => {
     const items = [
@@ -1315,22 +1307,10 @@ describe('Menu', () => {
       },
     ];
     const testClassNames = {
-      popup: {
-        root: 'test-popup-root',
-        list: 'test-list',
-        listTitle: 'test-list-title',
-        listItem: 'test-list-item',
-        listItemIcon: 'test-list-item-icon',
-      },
+      popup: 'test-popup',
     };
     const testStyles = {
-      popup: {
-        root: { fontSize: '14px' },
-        list: { color: 'red' },
-        listTitle: { color: 'blue' },
-        listItem: { color: 'green' },
-        listItemIcon: { color: 'blue' },
-      },
+      popup: { color: 'red' },
     };
     render(
       <TriggerMockContext.Provider value={{ popupVisible: true }}>
@@ -1344,17 +1324,7 @@ describe('Menu', () => {
         />
       </TriggerMockContext.Provider>,
     );
-    const root = document.querySelector(`.${testClassNames.popup.root}`) as HTMLElement;
-    const list = document.querySelector(`.${testClassNames.popup.list}`) as HTMLElement;
-    const listTitle = document.querySelector(`.${testClassNames.popup.listTitle}`) as HTMLElement;
-    const listItem = document.querySelector(`.${testClassNames.popup.listItem}`) as HTMLElement;
-    const listItemIcon = document.querySelector(
-      `.${testClassNames.popup.listItemIcon}`,
-    ) as HTMLElement;
-    expect(root).toHaveStyle(testStyles.popup.root);
-    expect(list).toHaveStyle(testStyles.popup.list);
-    expect(listTitle).toHaveStyle(testStyles.popup.listTitle);
-    expect(listItem).toHaveStyle(testStyles.popup.listItem);
-    expect(listItemIcon).toHaveStyle(testStyles.popup.listItemIcon);
+    const popup = document.querySelector(`.${testClassNames.popup}`) as HTMLElement;
+    expect(popup).toHaveStyle(testStyles.popup);
   });
 });

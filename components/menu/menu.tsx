@@ -35,17 +35,8 @@ const MENU_COMPONENTS: GetProp<RcMenuProps, '_internalComponents'> = {
   divider: Divider,
 };
 
-type SemanticName =
-  | 'root'
-  | 'item'
-  | 'itemIcon'
-  | 'itemContent'
-  | 'subMenuList'
-  | 'subMenuListTitle'
-  | 'subMenuListItem'
-  | 'subMenuListItemIcon'
-  | 'subMenuListItemContent';
-type PopupName = 'root' | 'listItem' | 'listTitle' | 'list' | 'listItemContent' | 'listItemIcon';
+type SemanticName = 'root' | 'item' | 'itemIcon' | 'itemContent' | 'popup';
+type subMenuName = 'root' | 'listItem' | 'listTitle' | 'list' | 'listItemContent' | 'listItemIcon';
 
 export interface MenuProps extends Omit<RcMenuProps, 'items' | '_internalComponents'> {
   theme?: MenuTheme;
@@ -61,12 +52,12 @@ export interface MenuProps extends Omit<RcMenuProps, 'items' | '_internalCompone
   items?: ItemType[];
   classNames?: Partial<
     Record<SemanticName, string> & {
-      popup?: Partial<Record<PopupName, string>>;
+      subMenu?: Partial<Record<subMenuName, string>>;
     }
   >;
   styles?: Partial<
     Record<SemanticName, React.CSSProperties> & {
-      popup?: Partial<Record<PopupName, React.CSSProperties>>;
+      subMenu?: Partial<Record<subMenuName, React.CSSProperties>>;
     }
   >;
 }
@@ -115,7 +106,7 @@ const InternalMenu = forwardRef<RcMenuRef, InternalMenuProps>((props, ref) => {
     [contextClassNames, classNames],
     [contextStyles, styles],
     {
-      popup: {
+      subMenu: {
         _default: 'root',
       },
     },
