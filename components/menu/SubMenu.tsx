@@ -17,7 +17,8 @@ export interface SubMenuProps extends Omit<SubMenuType, 'ref' | 'key' | 'childre
 const SubMenu: React.FC<SubMenuProps> = (props) => {
   const { popupClassName, icon, title, theme: customTheme } = props;
   const context = React.useContext(MenuContext);
-  const { prefixCls, inlineCollapsed, theme: contextTheme, classNames, styles } = context;
+  const { prefixCls, inlineCollapsed, theme: contextTheme, classNames, styles, mode } = context;
+  const isPopupStructure = mode !== 'inline';
 
   const parentPath = useFullPath();
 
@@ -59,24 +60,24 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
         {...omit(props, ['icon'])}
         title={titleNode}
         classNames={{
-          list: classNames?.popup?.list,
-          listTitle: classNames?.popup?.listTitle,
+          list: isPopupStructure ? classNames?.popup?.list : classNames?.subMenuList,
+          listTitle: isPopupStructure ? classNames?.popup?.listTitle : classNames?.subMenuListTitle,
         }}
         styles={{
-          list: styles?.popup?.list,
-          listTitle: styles?.popup?.listTitle,
+          list: isPopupStructure ? styles?.popup?.list : styles?.subMenuList,
+          listTitle: isPopupStructure ? styles?.popup?.listTitle : styles?.subMenuListTitle,
         }}
         popupClassName={cls(
           prefixCls,
           popupClassName,
-          classNames?.popup?.root,
+          isPopupStructure && classNames?.popup?.root,
           `${prefixCls}-${customTheme || contextTheme}`,
         )}
         popupStyle={{
           zIndex,
           // fix: https://github.com/ant-design/ant-design/issues/47826#issuecomment-2360737237
           ...props.popupStyle,
-          ...styles?.popup?.root,
+          ...(isPopupStructure ? styles?.popup?.root : {}),
         }}
       />
     </MenuContext.Provider>

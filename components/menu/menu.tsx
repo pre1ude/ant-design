@@ -35,7 +35,16 @@ const MENU_COMPONENTS: GetProp<RcMenuProps, '_internalComponents'> = {
   divider: Divider,
 };
 
-type SemanticName = 'root' | 'item' | 'itemIcon' | 'itemContent';
+type SemanticName =
+  | 'root'
+  | 'item'
+  | 'itemIcon'
+  | 'itemContent'
+  | 'subMenuList'
+  | 'subMenuListTitle'
+  | 'subMenuListItem'
+  | 'subMenuListItemIcon'
+  | 'subMenuListItemContent';
 type PopupName = 'root' | 'listItem' | 'listTitle' | 'list' | 'listItemContent' | 'listItemIcon';
 
 export interface MenuProps extends Omit<RcMenuProps, 'items' | '_internalComponents'> {

@@ -45,20 +45,30 @@ const MenuItem: GenericComponent = (props) => {
     inlineCollapsed: isInlineCollapsed,
     styles,
     classNames,
+    mode,
   } = React.useContext<MenuContextProps>(MenuContext);
+  const isSubMenu = !firstLevel && mode === 'inline';
+  const isPopupMenu = !firstLevel && mode !== 'inline';
   const renderItemChildren = (inlineCollapsed: boolean) => {
     const label = (children as React.ReactNode[])?.[0];
-
     const wrapNode = (
       <span
         className={cls(
           `${prefixCls}-title-content`,
-          firstLevel ? classNames?.itemContent : classNames?.popup?.listItemContent,
+          firstLevel && classNames?.itemContent,
+          isSubMenu && classNames?.subMenuListItemContent,
+          isPopupMenu && classNames?.popup?.listItemContent,
           {
             [`${prefixCls}-title-content-with-extra`]: !!extra || extra === 0,
           },
         )}
-        style={firstLevel ? styles?.itemContent : styles?.popup?.listItemContent}
+        style={
+          firstLevel
+            ? styles?.itemContent
+            : mode === 'inline'
+              ? styles?.subMenuListItemContent
+              : styles?.popup?.listItemContent
+        }
       >
         {children}
       </span>
@@ -98,25 +108,39 @@ const MenuItem: GenericComponent = (props) => {
     <Item
       {...omit(props, ['title', 'icon', 'danger'])}
       className={cls(
+        firstLevel && classNames?.item,
+        isSubMenu && classNames?.subMenuListItem,
+        isPopupMenu && classNames?.popup?.listItem,
         {
           [`${prefixCls}-item-danger`]: danger,
           [`${prefixCls}-item-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
         },
         className,
-        firstLevel ? classNames?.item : classNames?.popup?.listItem,
       )}
-      style={firstLevel ? styles?.item : styles?.popup?.listItem}
+      style={
+        firstLevel
+          ? styles?.item
+          : mode === 'inline'
+            ? styles?.subMenuListItem
+            : styles?.popup?.listItem
+      }
       title={typeof title === 'string' ? title : undefined}
     >
       {cloneElement(icon, (oriProps) => ({
         className: cls(
           oriProps.className,
           `${prefixCls}-item-icon`,
-          firstLevel ? classNames?.itemIcon : classNames?.popup?.listItemIcon,
+          firstLevel && classNames?.itemIcon,
+          isSubMenu && classNames?.subMenuListItemIcon,
+          isPopupMenu && classNames?.popup?.listItemIcon,
         ),
         style: {
           ...oriProps.style,
-          ...(firstLevel ? styles?.itemIcon : styles?.popup?.listItemIcon),
+          ...(firstLevel
+            ? styles?.itemIcon
+            : mode === 'inline'
+              ? styles?.subMenuListItemIcon
+              : styles?.popup?.listItemIcon),
         },
       }))}
       {renderItemChildren(isInlineCollapsed)}
