@@ -35,8 +35,14 @@ const MENU_COMPONENTS: GetProp<RcMenuProps, '_internalComponents'> = {
   divider: Divider,
 };
 
-type SemanticName = 'root' | 'item' | 'itemIcon' | 'itemContent' | 'popup';
-type subMenuName = 'root' | 'listItem' | 'listTitle' | 'list' | 'listItemContent' | 'listItemIcon';
+export type SemanticName = 'root' | 'item' | 'itemIcon' | 'itemContent' | 'popup';
+export type SubMenuName =
+  | 'root'
+  | 'listItem'
+  | 'listTitle'
+  | 'list'
+  | 'listItemContent'
+  | 'listItemIcon';
 
 export interface MenuProps extends Omit<RcMenuProps, 'items' | '_internalComponents'> {
   theme?: MenuTheme;
@@ -52,12 +58,12 @@ export interface MenuProps extends Omit<RcMenuProps, 'items' | '_internalCompone
   items?: ItemType[];
   classNames?: Partial<
     Record<SemanticName, string> & {
-      subMenu?: Partial<Record<subMenuName, string>>;
+      subMenu?: Partial<Record<SubMenuName, string>>;
     }
   >;
   styles?: Partial<
     Record<SemanticName, React.CSSProperties> & {
-      subMenu?: Partial<Record<subMenuName, React.CSSProperties>>;
+      subMenu?: Partial<Record<SubMenuName, React.CSSProperties>>;
     }
   >;
 }
@@ -110,7 +116,7 @@ const InternalMenu = forwardRef<RcMenuRef, InternalMenuProps>((props, ref) => {
         _default: 'root',
       },
     },
-  );
+  ) as [MenuContextProps['classNames'], MenuContextProps['styles']];
 
   const rootPrefixCls = getPrefixCls();
 
@@ -225,7 +231,7 @@ const InternalMenu = forwardRef<RcMenuRef, InternalMenuProps>((props, ref) => {
           onClick={onItemClick}
           {...passedProps}
           inlineCollapsed={mergedInlineCollapsed}
-          style={{ ...mergedStyles?.root, ...contextStyle, ...style }}
+          style={{ ...mergedStyles.root, ...contextStyle, ...style }}
           className={menuClassName}
           prefixCls={prefixCls}
           direction={direction}
@@ -238,7 +244,7 @@ const InternalMenu = forwardRef<RcMenuRef, InternalMenuProps>((props, ref) => {
             overrideObj.rootClassName,
             cssVarCls,
             rootCls,
-            classNames?.root,
+            mergedClassNames.root,
           )}
           _internalComponents={MENU_COMPONENTS}
         />
